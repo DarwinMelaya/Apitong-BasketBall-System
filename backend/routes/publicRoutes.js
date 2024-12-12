@@ -20,10 +20,10 @@ router.get(
   "/games",
   asyncHandler(async (req, res) => {
     const games = await Game.find({
-      date: { $gte: new Date() },
+      date: { $gte: new Date().setHours(0, 0, 0, 0) },
     })
-      .populate("homeTeam", "name")
-      .populate("awayTeam", "name")
+      .populate("homeTeam", "name wins losses")
+      .populate("awayTeam", "name wins losses")
       .sort({ date: 1 });
     res.json(games);
   })

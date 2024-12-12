@@ -2,14 +2,18 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const createInitialAdmin = require("./utils/createAdmin");
 
-// Load env vars
+// Load env vars first
 dotenv.config();
 
 // Connect to database
 connectDB();
 
 const app = express();
+
+// Create initial admin
+createInitialAdmin();
 
 // Middleware
 app.use(cors());
