@@ -7,6 +7,7 @@ import {
   createGame,
   getStandings,
   getGames,
+  updateGameScore,
 } from "../services/api";
 import Table from "../components/Table";
 import Schedule from "../components/Schedule";
@@ -88,6 +89,15 @@ function AdminDashboard() {
       fetchData();
     } catch (error) {
       console.error("Error creating game:", error);
+    }
+  };
+
+  const handleUpdateScore = async (gameId, scores) => {
+    try {
+      await updateGameScore(gameId, scores);
+      fetchData();
+    } catch (error) {
+      console.error("Error updating game score:", error);
     }
   };
 
@@ -210,7 +220,11 @@ function AdminDashboard() {
         </div>
         <div>
           <h2 className="text-xl font-semibold mb-4">Upcoming Games</h2>
-          <Schedule games={games} />
+          <Schedule
+            games={games}
+            isAdmin={true}
+            onUpdateScore={handleUpdateScore}
+          />
         </div>
       </div>
     </div>

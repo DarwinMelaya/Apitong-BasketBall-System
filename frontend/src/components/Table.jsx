@@ -20,72 +20,66 @@ function Table({ teams, onUpdateTeam, isAdmin = false }) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-white shadow-md rounded-lg">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Team
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Wins
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Losses
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Win %
+      <table className="min-w-full">
+        <thead>
+          <tr className="border-b-2 border-gray-200">
+            <th className="text-left py-3 font-semibold text-gray-700">TEAM</th>
+            <th className="text-center py-3 font-semibold text-gray-700">W</th>
+            <th className="text-center py-3 font-semibold text-gray-700">L</th>
+            <th className="text-center py-3 font-semibold text-gray-700">
+              PCT
             </th>
             {isAdmin && (
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
+              <th className="text-center py-3 font-semibold text-gray-700">
+                ACTION
               </th>
             )}
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-200">
-          {teams.map((team) => (
-            <tr key={team._id}>
-              <td className="px-6 py-4 whitespace-nowrap">{team.name}</td>
-              <td className="px-6 py-4 whitespace-nowrap">
+        <tbody>
+          {teams.map((team, index) => (
+            <tr key={team._id} className="border-b hover:bg-gray-50">
+              <td className="py-3 font-medium">{team.name}</td>
+              <td className="text-center">
                 {editingTeam?._id === team._id ? (
                   <input
                     type="number"
                     value={wins}
                     onChange={(e) => setWins(parseInt(e.target.value))}
-                    className="w-20 p-1 border rounded"
+                    className="w-16 text-center border rounded"
                   />
                 ) : (
                   team.wins
                 )}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td className="text-center">
                 {editingTeam?._id === team._id ? (
                   <input
                     type="number"
                     value={losses}
                     onChange={(e) => setLosses(parseInt(e.target.value))}
-                    className="w-20 p-1 border rounded"
+                    className="w-16 text-center border rounded"
                   />
                 ) : (
                   team.losses
                 )}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td className="text-center">
                 {(team.winningPercentage * 100).toFixed(1)}%
               </td>
               {isAdmin && (
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="text-center">
                   {editingTeam?._id === team._id ? (
                     <button
                       onClick={handleSave}
-                      className="text-green-600 hover:text-green-900"
+                      className="text-green-600 hover:text-green-800"
                     >
                       Save
                     </button>
                   ) : (
                     <button
                       onClick={() => handleEdit(team)}
-                      className="text-blue-600 hover:text-blue-900"
+                      className="text-blue-600 hover:text-blue-800"
                     >
                       Edit
                     </button>

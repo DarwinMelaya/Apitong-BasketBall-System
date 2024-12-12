@@ -2,18 +2,32 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav className="bg-blue-600 text-white shadow-lg">
+    <nav className="bg-gradient-to-r from-blue-800 to-blue-600">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="text-xl font-bold">
-            Basketball League
+        <div className="flex justify-between items-center h-20">
+          <Link to="/" className="flex items-center space-x-2">
+            <span className="text-2xl font-bold text-white">
+              Basketball League
+            </span>
           </Link>
-          <div className="flex space-x-4">
-            <Link to="/" className="hover:text-blue-200">
-              Standings
+          <div className="flex space-x-6">
+            <Link
+              to="/"
+              className="text-white hover:text-blue-200 font-semibold"
+            >
+              STANDINGS
             </Link>
-            <Link to="/admin/login" className="hover:text-blue-200">
-              Admin
+            <Link
+              to="/"
+              className="text-white hover:text-blue-200 font-semibold"
+            >
+              SCHEDULE
+            </Link>
+            <Link
+              to="/admin/login"
+              className="text-white hover:text-blue-200 font-semibold"
+            >
+              ADMIN
             </Link>
           </div>
         </div>

@@ -87,4 +87,40 @@ router.post(
   })
 );
 
+// @desc    Update game score
+// @route   PUT /api/admin/games/:id/score
+router.put(
+  "/games/:id/score",
+  protect,
+  asyncHandler(async (req, res) => {
+    const { homeScore, awayScore } = req.body;
+    const game = await Game.findById(req.params.id);
+
+    if (game) {
+      game.homeScore = homeScore;
+      game.awayScore = awayScore;
+      game.status = "completed";
+
+      // Update team standings
+      const homeTeam = await Team.findById(game.homeTeam);
+      const awayTeam = await Team.findById(game.awayTeam);
+
+      if (homeScore > awayScore) {
+        homeTeam.wins += 1;
+        awayTeam.losses += 1;
+      } else {
+        awayTeam.wins += 1;
+        homeTeam.losses += 1;
+      }
+
+      await Promise.all([homeTeam.save(), awayTeam.save(), game.save()]);
+
+      res.json(game);
+    } else {
+      res.status(404);
+      throw new Error("Game not found");
+    }
+  })
+);
+
 module.exports = router;

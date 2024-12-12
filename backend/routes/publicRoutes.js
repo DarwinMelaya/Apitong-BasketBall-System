@@ -29,4 +29,19 @@ router.get(
   })
 );
 
+// @desc    Get completed games (history)
+// @route   GET /api/public/games/history
+router.get(
+  "/games/history",
+  asyncHandler(async (req, res) => {
+    const games = await Game.find({
+      status: "completed",
+    })
+      .populate("homeTeam", "name wins losses")
+      .populate("awayTeam", "name wins losses")
+      .sort({ date: -1 }); // Most recent first
+    res.json(games);
+  })
+);
+
 module.exports = router;

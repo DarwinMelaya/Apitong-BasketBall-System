@@ -24,6 +24,19 @@ const gameSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["scheduled", "completed"],
+      default: "scheduled",
+    },
+    homeScore: {
+      type: Number,
+      default: 0,
+    },
+    awayScore: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

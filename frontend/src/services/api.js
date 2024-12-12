@@ -48,3 +48,13 @@ export const createGame = async (gameData) => {
   const response = await api.post("/admin/games", gameData);
   return response.data;
 };
+
+export const updateGameScore = async (gameId, scoreData) => {
+  const response = await api.put(`/admin/games/${gameId}/score`, scoreData);
+  return response.data;
+};
+
+export const getGameHistory = async () => {
+  const response = await api.get("/public/games/history");
+  return response.data;
+};
