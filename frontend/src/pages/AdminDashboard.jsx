@@ -24,6 +24,8 @@ function AdminDashboard() {
     time: "",
     venue: "",
   });
+  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
+  const [isGameModalOpen, setIsGameModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -102,125 +104,168 @@ function AdminDashboard() {
     }
   };
 
-  return (
-    <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+  const Modal = ({ isOpen, onClose, title, children }) => {
+    if (!isOpen) return null;
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="bg-blue-900 px-6 py-4">
-            <h2 className="text-xl font-bold text-white">Add New Team</h2>
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4">
+          <div className="bg-[#1f1f1f] px-6 py-4 rounded-t-xl flex justify-between items-center">
+            <h2 className="text-xl font-bold text-white">{title}</h2>
+            <button
+              onClick={onClose}
+              className="text-gray-300 hover:text-white"
+            >
+              ✕
+            </button>
           </div>
-          <div className="p-6">
-            <form onSubmit={handleCreateTeam} className="space-y-4">
-              <div>
-                <label className="block text-gray-700 mb-2">Team Name</label>
-                <input
-                  type="text"
-                  value={newTeam.name}
-                  onChange={(e) => setNewTeam({ name: e.target.value })}
-                  className="w-full p-2 border rounded"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-              >
-                Add Team
-              </button>
-            </form>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="bg-blue-900 px-6 py-4">
-            <h2 className="text-xl font-bold text-white">Schedule Game</h2>
-          </div>
-          <div className="p-6">
-            <form onSubmit={handleCreateGame} className="space-y-4">
-              <div>
-                <label className="block text-gray-700 mb-2">Home Team</label>
-                <select
-                  value={newGame.homeTeam}
-                  onChange={(e) =>
-                    setNewGame({ ...newGame, homeTeam: e.target.value })
-                  }
-                  className="w-full p-2 border rounded"
-                  required
-                >
-                  <option value="">Select Home Team</option>
-                  {teams.map((team) => (
-                    <option key={team._id} value={team._id}>
-                      {team.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-gray-700 mb-2">Away Team</label>
-                <select
-                  value={newGame.awayTeam}
-                  onChange={(e) =>
-                    setNewGame({ ...newGame, awayTeam: e.target.value })
-                  }
-                  className="w-full p-2 border rounded"
-                  required
-                >
-                  <option value="">Select Away Team</option>
-                  {teams.map((team) => (
-                    <option key={team._id} value={team._id}>
-                      {team.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-gray-700 mb-2">Date</label>
-                <input
-                  type="date"
-                  value={newGame.date}
-                  onChange={(e) =>
-                    setNewGame({ ...newGame, date: e.target.value })
-                  }
-                  className="w-full p-2 border rounded"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 mb-2">Time</label>
-                <input
-                  type="time"
-                  value={newGame.time}
-                  onChange={(e) =>
-                    setNewGame({ ...newGame, time: e.target.value })
-                  }
-                  className="w-full p-2 border rounded"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 mb-2">Venue</label>
-                <input
-                  type="text"
-                  value={newGame.venue}
-                  onChange={(e) =>
-                    setNewGame({ ...newGame, venue: e.target.value })
-                  }
-                  className="w-full p-2 border rounded"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-              >
-                Schedule Game
-              </button>
-            </form>
-          </div>
+          <div className="p-6">{children}</div>
         </div>
       </div>
+    );
+  };
+
+  return (
+    <div className="space-y-8">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+        <div className="space-x-4">
+          <button
+            onClick={() => setIsTeamModalOpen(true)}
+            className="bg-[#1f1f1f] text-white py-2 px-4 rounded-lg hover:bg-gray-800"
+          >
+            Add New Team
+          </button>
+          <button
+            onClick={() => setIsGameModalOpen(true)}
+            className="bg-[#ff0000] text-white py-2 px-4 rounded-lg hover:bg-red-700"
+          >
+            Schedule Game
+          </button>
+        </div>
+      </div>
+
+      {/* Team Modal */}
+      <Modal
+        isOpen={isTeamModalOpen}
+        onClose={() => setIsTeamModalOpen(false)}
+        title="Add New Team"
+      >
+        <form
+          onSubmit={(e) => {
+            handleCreateTeam(e);
+            setIsTeamModalOpen(false);
+          }}
+          className="space-y-4"
+        >
+          <div>
+            <label className="block text-gray-700 mb-2">Team Name</label>
+            <input
+              type="text"
+              value={newTeam.name}
+              onChange={(e) => setNewTeam({ name: e.target.value })}
+              className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#ff0000] focus:border-[#ff0000] outline-none"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-[#ff0000] text-white py-2 px-4 rounded-lg hover:bg-red-700"
+          >
+            Add Team
+          </button>
+        </form>
+      </Modal>
+
+      {/* Game Modal */}
+      <Modal
+        isOpen={isGameModalOpen}
+        onClose={() => setIsGameModalOpen(false)}
+        title="Schedule Game"
+      >
+        <form
+          onSubmit={(e) => {
+            handleCreateGame(e);
+            setIsGameModalOpen(false);
+          }}
+          className="space-y-4"
+        >
+          <div>
+            <label className="block text-gray-700 mb-2">Home Team</label>
+            <select
+              value={newGame.homeTeam}
+              onChange={(e) =>
+                setNewGame({ ...newGame, homeTeam: e.target.value })
+              }
+              className="w-full p-2 border rounded"
+              required
+            >
+              <option value="">Select Home Team</option>
+              {teams.map((team) => (
+                <option key={team._id} value={team._id}>
+                  {team.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-gray-700 mb-2">Away Team</label>
+            <select
+              value={newGame.awayTeam}
+              onChange={(e) =>
+                setNewGame({ ...newGame, awayTeam: e.target.value })
+              }
+              className="w-full p-2 border rounded"
+              required
+            >
+              <option value="">Select Away Team</option>
+              {teams.map((team) => (
+                <option key={team._id} value={team._id}>
+                  {team.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-gray-700 mb-2">Date</label>
+            <input
+              type="date"
+              value={newGame.date}
+              onChange={(e) => setNewGame({ ...newGame, date: e.target.value })}
+              className="w-full p-2 border rounded"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 mb-2">Time</label>
+            <input
+              type="time"
+              value={newGame.time}
+              onChange={(e) => setNewGame({ ...newGame, time: e.target.value })}
+              className="w-full p-2 border rounded"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 mb-2">Venue</label>
+            <input
+              type="text"
+              value={newGame.venue}
+              onChange={(e) =>
+                setNewGame({ ...newGame, venue: e.target.value })
+              }
+              className="w-full p-2 border rounded"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+          >
+            Schedule Game
+          </button>
+        </form>
+      </Modal>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">

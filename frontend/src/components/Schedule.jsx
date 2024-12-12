@@ -16,31 +16,37 @@ function Schedule({ games, isAdmin, onUpdateScore, showScores = false }) {
       {games.map((game) => (
         <div
           key={game._id}
-          className={`border rounded-lg p-4 hover:shadow-md transition-shadow ${
-            game.status === "completed" ? "bg-gray-50" : ""
+          className={`border-2 rounded-lg p-6 hover:shadow-lg transition-shadow ${
+            game.status === "completed"
+              ? "bg-gray-50 border-gray-200"
+              : "border-[#ff0000]"
           }`}
         >
-          <div className="text-sm text-gray-600 mb-2">
+          <div className="text-sm text-gray-600 mb-3 uppercase tracking-wide font-semibold">
             {moment(game.date).format("dddd, MMMM D, YYYY")} • {game.time}
           </div>
-          <div className="grid grid-cols-3 items-center">
-            <div className="text-right font-semibold">
-              {game.homeTeam.name}
+          <div className="grid grid-cols-3 items-center gap-4">
+            <div className="text-right">
+              <div className="font-bold text-xl">{game.homeTeam.name}</div>
               {(showScores || game.status === "completed") && (
-                <span className="ml-2 text-lg">{game.homeScore}</span>
+                <span className="text-3xl font-bold text-[#ff0000]">
+                  {game.homeScore}
+                </span>
               )}
             </div>
-            <div className="text-center text-sm text-gray-500">
+            <div className="text-center text-lg font-bold text-gray-500">
               {game.status === "completed" ? "FINAL" : "VS"}
             </div>
-            <div className="text-left font-semibold">
-              {game.awayTeam.name}
+            <div className="text-left">
+              <div className="font-bold text-xl">{game.awayTeam.name}</div>
               {(showScores || game.status === "completed") && (
-                <span className="ml-2 text-lg">{game.awayScore}</span>
+                <span className="text-3xl font-bold text-[#ff0000]">
+                  {game.awayScore}
+                </span>
               )}
             </div>
           </div>
-          <div className="text-sm text-gray-600 mt-2 text-center">
+          <div className="text-sm text-gray-600 mt-3 text-center uppercase tracking-wide font-semibold">
             {game.venue}
           </div>
           {isAdmin && game.status !== "completed" && (

@@ -20,18 +20,20 @@ function Table({ teams, onUpdateTeam, isAdmin = false }) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full">
-        <thead>
-          <tr className="border-b-2 border-gray-200">
-            <th className="text-left py-3 font-semibold text-gray-700">TEAM</th>
-            <th className="text-center py-3 font-semibold text-gray-700">W</th>
-            <th className="text-center py-3 font-semibold text-gray-700">L</th>
-            <th className="text-center py-3 font-semibold text-gray-700">
+      <table className="w-full">
+        <thead className="border-b-2 border-[#ff0000]">
+          <tr>
+            <th className="py-3 text-left font-bold uppercase tracking-wide">
+              Team
+            </th>
+            <th className="text-center font-bold uppercase tracking-wide">W</th>
+            <th className="text-center font-bold uppercase tracking-wide">L</th>
+            <th className="text-center font-bold uppercase tracking-wide">
               PCT
             </th>
             {isAdmin && (
-              <th className="text-center py-3 font-semibold text-gray-700">
-                ACTION
+              <th className="text-center font-bold uppercase tracking-wide">
+                Action
               </th>
             )}
           </tr>
