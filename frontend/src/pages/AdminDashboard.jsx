@@ -11,6 +11,7 @@ import {
 } from "../services/api";
 import Table from "../components/Table";
 import Schedule from "../components/Schedule";
+import Layout from "../components/Layout";
 
 function AdminDashboard() {
   const [teams, setTeams] = useState([]);
@@ -103,128 +104,149 @@ function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Add New Team</h2>
-          <form onSubmit={handleCreateTeam} className="space-y-4">
-            <div>
-              <label className="block text-gray-700 mb-2">Team Name</label>
-              <input
-                type="text"
-                value={newTeam.name}
-                onChange={(e) => setNewTeam({ name: e.target.value })}
-                className="w-full p-2 border rounded"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-            >
-              Add Team
-            </button>
-          </form>
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-blue-900 px-6 py-4">
+            <h2 className="text-xl font-bold text-white">Add New Team</h2>
+          </div>
+          <div className="p-6">
+            <form onSubmit={handleCreateTeam} className="space-y-4">
+              <div>
+                <label className="block text-gray-700 mb-2">Team Name</label>
+                <input
+                  type="text"
+                  value={newTeam.name}
+                  onChange={(e) => setNewTeam({ name: e.target.value })}
+                  className="w-full p-2 border rounded"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+              >
+                Add Team
+              </button>
+            </form>
+          </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Schedule Game</h2>
-          <form onSubmit={handleCreateGame} className="space-y-4">
-            <div>
-              <label className="block text-gray-700 mb-2">Home Team</label>
-              <select
-                value={newGame.homeTeam}
-                onChange={(e) =>
-                  setNewGame({ ...newGame, homeTeam: e.target.value })
-                }
-                className="w-full p-2 border rounded"
-                required
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-blue-900 px-6 py-4">
+            <h2 className="text-xl font-bold text-white">Schedule Game</h2>
+          </div>
+          <div className="p-6">
+            <form onSubmit={handleCreateGame} className="space-y-4">
+              <div>
+                <label className="block text-gray-700 mb-2">Home Team</label>
+                <select
+                  value={newGame.homeTeam}
+                  onChange={(e) =>
+                    setNewGame({ ...newGame, homeTeam: e.target.value })
+                  }
+                  className="w-full p-2 border rounded"
+                  required
+                >
+                  <option value="">Select Home Team</option>
+                  {teams.map((team) => (
+                    <option key={team._id} value={team._id}>
+                      {team.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-2">Away Team</label>
+                <select
+                  value={newGame.awayTeam}
+                  onChange={(e) =>
+                    setNewGame({ ...newGame, awayTeam: e.target.value })
+                  }
+                  className="w-full p-2 border rounded"
+                  required
+                >
+                  <option value="">Select Away Team</option>
+                  {teams.map((team) => (
+                    <option key={team._id} value={team._id}>
+                      {team.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-2">Date</label>
+                <input
+                  type="date"
+                  value={newGame.date}
+                  onChange={(e) =>
+                    setNewGame({ ...newGame, date: e.target.value })
+                  }
+                  className="w-full p-2 border rounded"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-2">Time</label>
+                <input
+                  type="time"
+                  value={newGame.time}
+                  onChange={(e) =>
+                    setNewGame({ ...newGame, time: e.target.value })
+                  }
+                  className="w-full p-2 border rounded"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-2">Venue</label>
+                <input
+                  type="text"
+                  value={newGame.venue}
+                  onChange={(e) =>
+                    setNewGame({ ...newGame, venue: e.target.value })
+                  }
+                  className="w-full p-2 border rounded"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
               >
-                <option value="">Select Home Team</option>
-                {teams.map((team) => (
-                  <option key={team._id} value={team._id}>
-                    {team.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2">Away Team</label>
-              <select
-                value={newGame.awayTeam}
-                onChange={(e) =>
-                  setNewGame({ ...newGame, awayTeam: e.target.value })
-                }
-                className="w-full p-2 border rounded"
-                required
-              >
-                <option value="">Select Away Team</option>
-                {teams.map((team) => (
-                  <option key={team._id} value={team._id}>
-                    {team.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2">Date</label>
-              <input
-                type="date"
-                value={newGame.date}
-                onChange={(e) =>
-                  setNewGame({ ...newGame, date: e.target.value })
-                }
-                className="w-full p-2 border rounded"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2">Time</label>
-              <input
-                type="time"
-                value={newGame.time}
-                onChange={(e) =>
-                  setNewGame({ ...newGame, time: e.target.value })
-                }
-                className="w-full p-2 border rounded"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2">Venue</label>
-              <input
-                type="text"
-                value={newGame.venue}
-                onChange={(e) =>
-                  setNewGame({ ...newGame, venue: e.target.value })
-                }
-                className="w-full p-2 border rounded"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-            >
-              Schedule Game
-            </button>
-          </form>
+                Schedule Game
+              </button>
+            </form>
+          </div>
         </div>
       </div>
 
-      <div className="space-y-8">
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Team Standings</h2>
-          <Table teams={teams} onUpdateTeam={handleUpdateTeam} isAdmin={true} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-blue-900 px-6 py-4">
+            <h2 className="text-xl font-bold text-white">Team Standings</h2>
+          </div>
+          <div className="p-6">
+            <Table
+              teams={teams}
+              onUpdateTeam={handleUpdateTeam}
+              isAdmin={true}
+            />
+          </div>
         </div>
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Upcoming Games</h2>
-          <Schedule
-            games={games}
-            isAdmin={true}
-            onUpdateScore={handleUpdateScore}
-          />
+
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-blue-900 px-6 py-4">
+            <h2 className="text-xl font-bold text-white">Game Management</h2>
+          </div>
+          <div className="p-6">
+            <Schedule
+              games={games}
+              isAdmin={true}
+              onUpdateScore={handleUpdateScore}
+            />
+          </div>
         </div>
       </div>
     </div>

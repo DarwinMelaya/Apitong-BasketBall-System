@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getStandings, getGames, getGameHistory } from "../services/api";
 import Table from "../components/Table";
 import Schedule from "../components/Schedule";
+import Layout from "../components/Layout";
 
 function UserView() {
   const [teams, setTeams] = useState([]);
@@ -28,31 +29,35 @@ function UserView() {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-blue-800 mb-6 pb-2 border-b-2 border-gray-200">
-              UPCOMING GAMES
-            </h2>
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <div className="lg:col-span-3 space-y-8">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-blue-900 px-6 py-4">
+            <h2 className="text-xl font-bold text-white">UPCOMING GAMES</h2>
+          </div>
+          <div className="p-6">
             <Schedule
               games={games.filter((game) => game.status === "scheduled")}
             />
           </div>
+        </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-blue-800 mb-6 pb-2 border-b-2 border-gray-200">
-              GAME HISTORY
-            </h2>
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-blue-900 px-6 py-4">
+            <h2 className="text-xl font-bold text-white">GAME HISTORY</h2>
+          </div>
+          <div className="p-6">
             <Schedule games={completedGames} showScores={true} />
           </div>
         </div>
+      </div>
 
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-blue-800 mb-6 pb-2 border-b-2 border-gray-200">
-              TEAM STANDINGS
-            </h2>
+      <div className="lg:col-span-1">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden sticky top-8">
+          <div className="bg-blue-900 px-6 py-4">
+            <h2 className="text-xl font-bold text-white">STANDINGS</h2>
+          </div>
+          <div className="p-6">
             <Table teams={teams} />
           </div>
         </div>
