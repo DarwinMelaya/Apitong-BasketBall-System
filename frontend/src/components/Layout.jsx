@@ -11,7 +11,7 @@ function Layout({ children }) {
           <nav className="flex justify-between items-center h-20">
             <Link to="/" className="flex items-center space-x-3">
               <span className="text-3xl font-bold text-white tracking-tight">
-                BASKETBALL LEAGUE
+                APITONG BASKETBALL LEAGUE
               </span>
             </Link>
             <div className="flex items-center space-x-8">

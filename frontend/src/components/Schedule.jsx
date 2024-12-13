@@ -23,7 +23,8 @@ function Schedule({ games, isAdmin, onUpdateScore, showScores = false }) {
           }`}
         >
           <div className="text-sm text-gray-600 mb-3 uppercase tracking-wide font-semibold">
-            {moment(game.date).format("dddd, MMMM D, YYYY")} • {game.time}
+            {moment(game.date).format("dddd, MMMM D, YYYY")} •{" "}
+            {moment(game.time, "HH:mm").format("h:mm A")}
           </div>
           <div className="grid grid-cols-3 items-center gap-4">
             <div className="text-right">

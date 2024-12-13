@@ -22,43 +22,62 @@ function AdminLogin() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10">
-      <h2 className="text-2xl font-bold mb-5">Admin Login</h2>
-      {error && (
-        <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>
-      )}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-gray-700 mb-2">Username</label>
-          <input
-            type="text"
-            value={formData.username}
-            onChange={(e) =>
-              setFormData({ ...formData, username: e.target.value })
-            }
-            className="w-full p-2 border rounded"
-            required
-          />
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-[#1f1f1f] mb-2">
+            BASKETBALL LEAGUE
+          </h1>
+          <h2 className="text-2xl font-semibold text-gray-600">Admin Portal</h2>
         </div>
-        <div>
-          <label className="block text-gray-700 mb-2">Password</label>
-          <input
-            type="password"
-            value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-            className="w-full p-2 border rounded"
-            required
-          />
+
+        <div className="bg-white rounded-xl shadow-lg p-8">
+          {error && (
+            <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-6 text-center font-medium">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Username
+              </label>
+              <input
+                type="text"
+                value={formData.username}
+                onChange={(e) =>
+                  setFormData({ ...formData, username: e.target.value })
+                }
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff0000] focus:border-[#ff0000] outline-none transition-colors"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff0000] focus:border-[#ff0000] outline-none transition-colors"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-[#1f1f1f] text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors font-semibold text-lg"
+            >
+              Sign In
+            </button>
+          </form>
         </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-        >
-          Login
-        </button>
-      </form>
+      </div>
     </div>
   );
 }

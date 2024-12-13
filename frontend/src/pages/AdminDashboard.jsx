@@ -238,13 +238,31 @@ function AdminDashboard() {
           </div>
           <div>
             <label className="block text-gray-700 mb-2">Time</label>
-            <input
-              type="time"
+            <select
               value={newGame.time}
-              onChange={(e) => setNewGame({ ...newGame, time: e.target.value })}
+              onChange={(e) => {
+                const selectedTime = e.target.value;
+                const [hours, minutes] = selectedTime.split(":");
+                const formattedTime = moment(
+                  `${hours}:${minutes}`,
+                  "HH:mm"
+                ).format("HH:mm");
+                setNewGame({ ...newGame, time: formattedTime });
+              }}
               className="w-full p-2 border rounded"
               required
-            />
+            >
+              <option value="">Select Time</option>
+              {Array.from({ length: 24 * 4 }).map((_, index) => {
+                const minutes = index * 15;
+                const time = moment().startOf("day").add(minutes, "minutes");
+                return (
+                  <option key={index} value={time.format("HH:mm")}>
+                    {time.format("h:mm A")}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div>
             <label className="block text-gray-700 mb-2">Venue</label>
@@ -267,30 +285,51 @@ function AdminDashboard() {
         </form>
       </Modal>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="bg-blue-900 px-6 py-4">
-            <h2 className="text-xl font-bold text-white">Team Standings</h2>
-          </div>
-          <div className="p-6">
-            <Table
-              teams={teams}
-              onUpdateTeam={handleUpdateTeam}
-              isAdmin={true}
-            />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-1">
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div className="bg-[#1f1f1f] px-6 py-4">
+              <h2 className="text-xl font-bold text-white">Teams List</h2>
+            </div>
+            <div className="p-6">
+              <div className="space-y-4">
+                {teams.map((team) => (
+                  <div
+                    key={team._id}
+                    className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                  >
+                    <div>
+                      <h3 className="font-bold text-lg">{team.name}</h3>
+                      <p className="text-sm text-gray-600">
+                        {team.wins}W - {team.losses}L
+                      </p>
+                    </div>
+                    <div className="text-lg font-bold text-[#ff0000]">
+                      {(team.winningPercentage * 100).toFixed(1)}%
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="bg-blue-900 px-6 py-4">
-            <h2 className="text-xl font-bold text-white">Game Management</h2>
-          </div>
-          <div className="p-6">
-            <Schedule
-              games={games}
-              isAdmin={true}
-              onUpdateScore={handleUpdateScore}
-            />
+        <div className="lg:col-span-2">
+          <div className="grid grid-cols-1 gap-8">
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+              <div className="bg-[#1f1f1f] px-6 py-4">
+                <h2 className="text-xl font-bold text-white">
+                  Game Management
+                </h2>
+              </div>
+              <div className="p-6">
+                <Schedule
+                  games={games}
+                  isAdmin={true}
+                  onUpdateScore={handleUpdateScore}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
